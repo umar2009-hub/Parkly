@@ -179,6 +179,7 @@ export interface PricingRule {
   multiplier_1: number; // e.g. 1.1 (+10%)
   occupancy_threshold_2: number; // e.g. 80
   multiplier_2: number; // e.g. 1.2 (+20%)
+  created_at?: string;
 }
 
 // Demand Forecast

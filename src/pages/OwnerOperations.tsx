@@ -28,7 +28,7 @@ export const OwnerOperations: React.FC = () => {
   // Gate simulation states
   const [gateState, setGateState] = useState<'CLOSED' | 'OPENING' | 'OPEN' | 'CLOSING'>('CLOSED');
   const [validationResult, setValidationResult] = useState<{
-    status: 'IDLE' | 'SUCCESS' | 'ERROR';
+    status: 'IDLE' | 'SUCCESS' | 'ERROR' | 'WARNING';
     message: string;
     details?: any;
   }>({ status: 'IDLE', message: '' });

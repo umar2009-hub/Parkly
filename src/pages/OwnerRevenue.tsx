@@ -40,7 +40,7 @@ export const OwnerRevenue: React.FC = () => {
           const listPays: Payment[] = JSON.parse(allPayments);
           const bIds = listBookings.map(b => b.id);
           setPayments(listPays.filter(p => bIds.includes(p.booking_id)));
-        } else if (dbService.isRealSupabase) {
+        } else if ('supabase' in dbService && (dbService as any).supabase) {
           // If in supabase mode, fetch from DB invoices/payments if available
           const { data } = await (dbService as any).supabase.from('payments').select('*');
           if (data) {

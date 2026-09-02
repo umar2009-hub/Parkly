@@ -29,7 +29,8 @@ async function runTests() {
     const signupRes = await dbService.signup(
       'Test Driver', 
       'test_driver@parkly.com', 
-      '+91 99999 88888', 
+      '+91 99999 88888',
+      'password',
       'DRIVER'
     );
     assert(signupRes.user !== null, 'Signup driver account successfully created.');
@@ -39,6 +40,7 @@ async function runTests() {
       'Duplicate User',
       'test_driver@parkly.com',
       '+91 12345 67890',
+      'password',
       'DRIVER'
     );
     assert(duplicateSignup.error !== null, 'Prevented registration of duplicate emails.');
@@ -100,7 +102,7 @@ async function runTests() {
       console.log('\n--- 4. CONCURRENCY EXCLUSION PROTECTION ---');
       
       // Let's signup a second driver to simulate concurrent click
-      const driver2 = await dbService.signup('Driver 2', 'driver2@parkly.com', '+91 11111 22222', 'DRIVER');
+      const driver2 = await dbService.signup('Driver 2', 'driver2@parkly.com', '+91 11111 22222', 'password', 'DRIVER');
       
       try {
         // Try booking the EXACT SAME slot during overlapping times
