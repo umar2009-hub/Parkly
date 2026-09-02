@@ -714,7 +714,7 @@ export const ParkingDetails: React.FC = () => {
                     {bookingSubmitting ? (
                       <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
                     ) : (
-                      <span>Walk-in Book (Pay ₹5 now)</span>
+                      <span>Walk-in Book</span>
                     )}
                   </button>
                 )}
