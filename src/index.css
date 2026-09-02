@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Inter', 'Geist', sans-serif;
+    background-color: #0A0A0B;
+    color: #FAFAFA;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+::-webkit-scrollbar-thumb {
+  background: #1C1C20;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #84CC16;
+}
+
+/* Leaflet dark theme map integration */
+.leaflet-container {
+  background: #121214 !important;
+  font-family: inherit;
+}
+.dark-leaflet-tiles {
+  filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(95%);
+}
+.leaflet-bar {
+  border: 1px solid #1C1C20 !important;
+  box-shadow: none !important;
+}
+.leaflet-bar a {
+  background-color: #121214 !important;
+  color: #FAFAFA !important;
+  border-bottom: 1px solid #1C1C20 !important;
+  transition: all 0.2s;
+}
+.leaflet-bar a:hover {
+  background-color: #1C1C20 !important;
+  color: #84CC16 !important;
+}
+.leaflet-popup-content-wrapper {
+  background-color: #121214 !important;
+  color: #FAFAFA !important;
+  border: 1px solid #1C1C20;
+  border-radius: 8px !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+.leaflet-popup-tip {
+  background-color: #121214 !important;
+  border-left: 1px solid #1C1C20;
+  border-bottom: 1px solid #1C1C20;
+}
+.leaflet-popup-close-button {
+  color: #A1A1AA !important;
+  padding: 8px !important;
+}
+.leaflet-popup-close-button:hover {
+  color: #EF4444 !important;
+}
+
+/* Skeleton loader animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #121214 25%, #1C1C20 50%, #121214 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
