@@ -60,7 +60,7 @@ export const App: React.FC = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/admin-signup" element={<AdminSignupPage />} />
+            <Route path="/admin/signup" element={<AdminSignupPage />} />
 
             {/* DRIVER SPACE (allowed role: DRIVER) */}
             <Route 
