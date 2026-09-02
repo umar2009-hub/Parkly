@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { dbService, triggerRealtimeEvent } from '../services/dbAdapter';
@@ -7,7 +7,7 @@ import { Notification, Booking } from '../types';
 import { 
   LayoutDashboard, Search, Calendar, History, Heart, 
   User, Settings, LogOut, Bell, Menu, X, ChevronRight, CheckSquare,
-  CheckCircle, RefreshCcw, Trash2
+  CheckCircle, RefreshCcw, Trash2, ArrowLeft
 } from 'lucide-react';
 
 export const DriverLayout: React.FC = () => {
@@ -363,6 +363,13 @@ export const DriverLayout: React.FC = () => {
 
         {/* Content Outlet */}
         <main className="flex-1 p-6 md:p-8 overflow-y-auto">
+          {location.pathname !== '/app' && location.pathname !== '/app/' && (
+            <div className="mb-4">
+              <Link to="/app" className="inline-flex items-center text-xs font-mono text-brand-text-muted hover:text-brand-lime transition-colors">
+                <ArrowLeft size={14} className="mr-1.5" /> Back to Dashboard
+              </Link>
+            </div>
+          )}
           <Outlet />
         </main>
       </div>

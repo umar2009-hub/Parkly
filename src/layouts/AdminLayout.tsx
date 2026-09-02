@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { dbService } from '../services/dbAdapter';
 import { Notification } from '../types';
 import { 
   Users, Building2, Calendar, ClipboardList, ShieldAlert, 
-  History, Settings, LogOut, Bell, Menu, X, ChevronRight, CheckSquare, LayoutDashboard, Trash2 
+  History, Settings, LogOut, Bell, Menu, X, ChevronRight, CheckSquare, LayoutDashboard, Trash2, ArrowLeft 
 } from 'lucide-react';
 
 export const AdminLayout: React.FC = () => {
@@ -307,6 +307,13 @@ export const AdminLayout: React.FC = () => {
         </header>
 
         <main className="flex-1 p-6 md:p-8 overflow-y-auto">
+          {location.pathname !== '/admin' && location.pathname !== '/admin/' && (
+            <div className="mb-4">
+              <Link to="/admin" className="inline-flex items-center text-xs font-mono text-brand-text-muted hover:text-brand-lime transition-colors">
+                <ArrowLeft size={14} className="mr-1.5" /> Back to Dashboard
+              </Link>
+            </div>
+          )}
           <Outlet />
         </main>
       </div>
