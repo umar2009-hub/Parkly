@@ -132,7 +132,7 @@ async function runTests() {
       const checkinDetail = await dbService.getBookingById(booking.id);
       assert(checkinDetail?.status === 'ACTIVE', 'Reservation status updated to ACTIVE.');
 
-      const checkoutRes = await dbService.checkOutDriver(booking.id, 'owner-1');
+      const checkoutRes = await dbService.checkOutDriver(checkinDetail!.exit_qr_token!, 'owner-1');
       assert(checkoutRes.booking.status === 'COMPLETED', 'Reservation status updated to COMPLETED.');
       
       const slotAfter = (await dbService.getParkingSlots('loc-1')).find(s => s.id === testSlot.id);

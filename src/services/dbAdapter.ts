@@ -503,38 +503,38 @@ export const dbService = {
   },
 
   async signupAdmin(fullName: string, email: string, phone: string, password: string, secretKey: string): Promise<{ user: Profile | null; error: string | null }> {
-    const ADMIN_KEY = 'PARKLY-ADMIN-2026';
-    if (secretKey !== ADMIN_KEY) {
-      return { user: null, error: 'Invalid admin authorization secret key.' };
-    }
-
     if (isRealSupabase && supabase) {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) return { user: null, error: error.message };
-      if (!data.user) return { user: null, error: 'User creation failed.' };
-
-      const newProfile: Profile = {
-        id: data.user.id,
-        full_name: fullName,
-        email,
-        phone,
-        role: 'ADMIN',
-        created_at: new Date().toISOString()
-      };
-
-      const { error: profileError } = await supabase.from('profiles').insert([newProfile]);
-      if (profileError) return { user: null, error: profileError.message };
-
-      return { user: newProfile, error: null };
+      try {
+        // PRODUCTION: The client MUST NOT know the secret.
+        // We pass the secret to a trusted backend Edge Function for validation and admin creation.
+        const { data, error } = await supabase.functions.invoke('admin-signup', {
+          body: { fullName, email, phone, password, secretToken: secretKey }
+        });
+        
+        if (error || !data?.user) {
+           return { user: null, error: 'The registration credentials are invalid.' }; 
+        }
+        
+        return { user: data.user as Profile, error: null };
+      } catch (err: any) {
+         // Return a generic error so as not to expose internal details or stack traces
+         return { user: null, error: 'Unable to complete admin registration right now. Please try again.' };
+      }
     } else {
-      const profiles = getLocalData<Profile>(KEYS.PROFILES);
-      if (profiles.some(p => p.email.toLowerCase() === email.toLowerCase())) {
-        return { user: null, error: 'Email already registered.' };
+      // LOCAL EMULATOR MODE ONLY
+      // This is for local development and testing only.
+      // The secret is configured in the environment but is NOT secure because it's evaluated in the browser.
+      const LOCAL_DEV_SECRET = getEnvVar('VITE_LOCAL_ADMIN_SECRET') || 'local-dev-secret';
+      
+      if (secretKey !== LOCAL_DEV_SECRET) {
+        return { user: null, error: 'The registration credentials are invalid.' };
       }
 
+      const profiles = getLocalData<Profile>(KEYS.PROFILES);
+      if (profiles.some(p => p.email.toLowerCase() === email.toLowerCase())) {
+        return { user: null, error: 'The registration credentials are invalid.' }; // generic error
+      }
+      
       const newProfile: Profile = {
         id: `user-${uuid()}`,
         full_name: fullName,

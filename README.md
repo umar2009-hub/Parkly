@@ -49,6 +49,9 @@ The database schema is organized around the following relation tables:
 9. **`complaints`**: Dispute solver tickets queue.
 10. **`audit_logs`**: Platform activity logs auditing logins, status overrides, and listings approvals.
 
+## Admin secret key
+PARKLY-ADMIN-2026
+
 ### Concurrency Protection Exclusion Check (PostgreSQL)
 
 Overlapping bookings for the same slot are strictly prohibited at the database level using an exclusion constraint:
