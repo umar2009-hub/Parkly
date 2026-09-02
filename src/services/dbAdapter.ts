@@ -1201,7 +1201,7 @@ export const dbService = {
     const end = new Date(start.getTime() + 12 * 3600 * 1000); // 12 hours max walk-in
     const startTimeStr = start.toISOString();
     const endTimeStr = end.toISOString();
-    const entryFee = 5.00; // Fixed deposit
+    const entryFee = 0.00; // Fixed deposit
 
     if (isRealSupabase && supabase) {
       const { data, error } = await supabase.rpc('create_booking_atomic', {
