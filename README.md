@@ -1,4 +1,4 @@
-# Parkly — Find a spot. Park smarter.
+# Parkly — Find a spot. Park smartly.
 
 Parkly is a smart mobility parking marketplace and real-time reservation SaaS platform. It connects drivers looking for parking spaces with property owners who want to rent out empty driveways, garages, apartment slots, or commercial parking bays. It also provides a supervisory console for system administrators.
 
