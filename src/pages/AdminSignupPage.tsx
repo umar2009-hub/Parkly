@@ -59,7 +59,7 @@ export const AdminSignupPage: React.FC = () => {
       setSecretKey('');
 
       if (error || !user) {
-        showToast('The registration credentials are invalid.', 'error');
+        showToast(error || 'Registration failed.', 'error');
       } else {
         setSuccess(true);
       }
