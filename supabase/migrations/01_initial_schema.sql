@@ -590,3 +590,12 @@ CREATE POLICY "Allow owner manage on demand_forecasts" ON public.demand_forecast
     WHERE l.id = location_id AND l.owner_id = auth.uid()
   )
 );
+
+-- ==========================================
+-- GRANT PRIVILEGES (CRITICAL FOR NEW SUPABASE PROJECTS)
+-- ==========================================
+-- In newer Supabase projects, tables created in the public schema do not automatically 
+-- inherit permissions for the anon and authenticated roles. We must explicitly grant them.
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
