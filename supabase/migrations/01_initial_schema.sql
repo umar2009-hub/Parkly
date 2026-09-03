@@ -489,6 +489,7 @@ CREATE POLICY "Allow inserts on overstay_events" ON public.overstay_events FOR I
 CREATE TABLE IF NOT EXISTS public.pricing_rules (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     location_id UUID NOT NULL UNIQUE REFERENCES public.parking_locations(id) ON DELETE CASCADE,
+    rule_name TEXT NOT NULL,
     is_enabled BOOLEAN DEFAULT false NOT NULL,
     min_price NUMERIC(10,2) NOT NULL,
     max_price NUMERIC(10,2) NOT NULL,
@@ -566,3 +567,26 @@ ALTER TABLE public.rfid_credentials ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow read on rfid_credentials" ON public.rfid_credentials FOR SELECT USING (true);
 CREATE POLICY "Allow manage own rfid" ON public.rfid_credentials FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 
+
+-- 18. DEMAND FORECASTS Table
+CREATE TABLE IF NOT EXISTS public.demand_forecasts (
+    location_id UUID NOT NULL REFERENCES public.parking_locations(id) ON DELETE CASCADE,
+    hour INTEGER NOT NULL CHECK (hour >= 0 AND hour <= 23),
+    expected_occupancy_pct NUMERIC(5,2) NOT NULL DEFAULT 0.00,
+    demand_level TEXT NOT NULL DEFAULT 'LOW' CHECK (demand_level IN ('LOW', 'MEDIUM', 'HIGH')),
+    PRIMARY KEY (location_id, hour)
+);
+
+ALTER TABLE public.demand_forecasts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read on demand_forecasts" ON public.demand_forecasts FOR SELECT USING (true);
+CREATE POLICY "Allow owner manage on demand_forecasts" ON public.demand_forecasts FOR ALL USING (
+  EXISTS (
+    SELECT 1 FROM public.parking_locations l
+    WHERE l.id = location_id AND l.owner_id = auth.uid()
+  )
+) WITH CHECK (
+  EXISTS (
+    SELECT 1 FROM public.parking_locations l
+    WHERE l.id = location_id AND l.owner_id = auth.uid()
+  )
+);
